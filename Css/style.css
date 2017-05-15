@@ -1,0 +1,73 @@
+.align-center{
+    height: 3%;
+    min-height: 100%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.menu-height{
+    height: 85%;
+}
+
+
+@media screen and (min-width: 1900px){
+    .menu-height{
+        height: 30%;
+    }
+}
+
+.scroll-list{
+    z-index: 1;
+    overflow: auto;
+    height: 69%;
+}
+
+.scroll-list-2{
+    z-index: 1;
+    overflow: auto;
+    height: 200px;
+    resize: vertical;
+}
+
+.scroll-list-3{
+    z-index: 1;
+    overflow: auto;
+    height: 78%;
+}
+
+.disabled-select{
+    pointer-events: none;
+}
+
+.Absolute-Center-align {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.Absolute-Center-align.is-Responsive-align {
+    width: 50%; 
+    height: 50%;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 40px;
+}
+
+#logo-container{
+    margin: auto;
+    margin-bottom: 10px;
+    width:200px;
+    height:30px;
+}
+
+.scrollbar{
+    
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
