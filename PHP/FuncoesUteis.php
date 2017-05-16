@@ -1,5 +1,7 @@
 <?php
+
 include_once 'Config_1.php';
+
 function formularioAcesso($nomeUsuario, $nomePessoa, $cargo, $setor, $permissao) {
     $formulario = array(
         'nomeUsuario' => $nomeUsuario,
@@ -11,13 +13,18 @@ function formularioAcesso($nomeUsuario, $nomePessoa, $cargo, $setor, $permissao)
 }
 
 function formularioLogin($nomeUsuario, $senha) {
-    $formulario = array(    
+    $formulario = array(
         'nomeUsuario' => $nomeUsuario,
         'senha' => $senha);
     $_SESSION['formulario'] = $formulario;
 }
 
-function recarregarPagina(){
+function dataAtual() {
+    date_default_timezone_set('America/Sao_Paulo');
+    return date('Y-m-d H:i:s');
+}
+
+function recarregarPagina() {
     $conecao = newConection();
     $recarregar = $conecao->prepare('SELECT * FROM `chamados`');
     $recarregar->execute();

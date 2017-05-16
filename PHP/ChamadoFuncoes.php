@@ -4,15 +4,13 @@ include_once 'Config_1.php';
 
 function adicionarChamado($solicitante, $descricao, $prioridade, $setor, $con) {
     if ($descricao != NULL && $setor != 0) {
-        date_default_timezone_set('America/Sao_Paulo');
-        $data_criacao = date('Y-m-d H:i:s');
-        $adiciona = $con->prepare('INSERT INTO `chamados` (`chamado_id`, `pessoa_id`, `descricao`, `setor_id`, `prioridade_id`, `status_id`, `data_criacao`) VALUES(NULL, :ppessoa_id, :pdescricao, :psetor_id, :pprioridade_id, :pstatus_id, :pdata_criacao);');
+        $adiciona = $con->prepare('CALL adicionarChamado(:ppessoa_id, :pdescricao, :psetor_id, :pprioridade_id, :pstatus_id, :pdata_criacao)');
         $adiciona->bindValue(':ppessoa_id', $solicitante);
         $adiciona->bindValue(':pdescricao', $descricao);
         $adiciona->bindValue(':psetor_id', $setor);
         $adiciona->bindValue(':pprioridade_id', $prioridade);
         $adiciona->bindValue(':pstatus_id', 1);
-        $adiciona->bindValue(':pdata_criacao', $data_criacao);
+        $adiciona->bindValue(':pdata_criacao', dataAtual());
         $adiciona->execute();
         $_SESSION['mensagem'] = 'Chamado Adicionado Com Sucesso';
         $_SESSION['class'] = 'alert-success';
@@ -26,14 +24,40 @@ function atenderChamado($chamadoId, $tecnicoId) {
     $conecao = newConection();
     $confere = chamadoEmAtendimento($chamadoId);
     if ($confere['tecnico_id'] == 0) {
-        date_default_timezone_set('America/Sao_Paulo');
-        $data_iniciado = date('Y-m-d H:i:s');
-        $atender = $conecao->prepare('UPDATE `chamados` SET `tecnico_id` = :ptecnicoId, `data_iniciado` = :pdataIniciado WHERE chamado_id = :pchamadoId');
+        $atender = $conecao->prepare('CALL atenderChamado(:ptecnicoId, :pdataIniciado, :pstatusId, :pchamadoId)');
         $atender->bindValue(':pchamadoId', $chamadoId);
         $atender->bindValue(':ptecnicoId', $tecnicoId);
-        $atender->bindValue(':pdataIniciado', $data_iniciado);
+        $atender->bindValue(':pdataIniciado', dataAtual());
+        $atender->bindValue(':pstatusId', 2);
         $atender->execute();
+        chamadoEmAtendimento($chamadoId);
     }
+}
+
+function trasferirChamado($chamadoId, $tecnicoId) {
+    $conecao = newConection();
+    $trasferir = $conecao->prepare('UPDATE `chamados` SET `tecnico_id` = :ptecnicoId WHERE chamado_id = :pchamadoId');
+    $trasferir->bindValue(':ptecnicoId', $tecnicoId);
+    $trasferir->bindValue(':pchamadoId', $chamadoId);
+    $trasferir->execute();
+}
+
+function finalizarChamado($chamadoId) {
+    $conecao = newConection();
+    $finalizar = $conecao->prepare('CALL finalizarChamado(:pchamadoId, :pdatafinalizado)');
+    $finalizar->bindValue(':pchamadoId', $chamadoId);
+    $finalizar->bindValue(':pdatafinalizado', dataAtual());
+    $finalizar->execute();
+    chamadoEmAtendimento($chamadoId);
+}
+
+function adicionarChamadoEmEspera($descricao, $chamadoId) {
+    $conecao = newConection();
+    $esperar = $conecao->prepare('CALL adicionarChamadoEmEspera(:pdescricao, :pchamadoId)');
+    $esperar->bindValue(':pdescricao', $descricao);
+    $esperar->bindValue(':pchamadoId', $chamadoId);
+    $esperar->execute();
+    chamadoEmAtendimento($chamadoId);
 }
 
 function chamadoEmAtendimento($chamadoId) {

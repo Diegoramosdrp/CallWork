@@ -140,7 +140,7 @@ function buscarUsuario($nomeUsuario, $con) {
 
 function listarTecnicos(){
     $con = newConection();
-    $listaTecnicos = $con->prepare('SELECT * FROM `logins` WHERE `permissao_id` = 4');
+    $listaTecnicos = $con->prepare('CALL listaTecnicos');
     $listaTecnicos->execute();
     return $listaTecnicos;
 }

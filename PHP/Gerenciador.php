@@ -79,6 +79,21 @@ if (isset($_GET['atenderChamado'])) {
     header('location:../ChamadoEmAtendimento.php');
 }
 
+if (isset($_POST['transferirChamado'])) {
+    trasferirChamado($_POST['chamadoId'], $_POST['transferir']);
+    header('location:../ChamadoEmAtendimento.php');
+}
+
+if (isset($_POST['justificar'])) {
+    adicionarChamadoEmEspera($_POST['descricao'], $_POST['chamadoId']);
+    header('location:../ChamadoEmAtendimento.php');
+}
+
+if (isset($_POST['finalizar'])) {
+    finalizarChamado($_POST['chamadoId']);
+    header('location:../ChamadoEmAtendimento.php');
+}
+
 //------------------------------------------------------------------------------------------------------------------------------
 // -- FUNÇÕES ACESSO --
 //Adicionar Acesso

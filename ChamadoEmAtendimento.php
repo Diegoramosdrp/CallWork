@@ -70,6 +70,14 @@
                     </div>
                     <div class="row h4">
                         <div class="col-lg-3 text-right">
+                            Status :
+                        </div>
+                        <div class="col-lg-3">
+                            <?php echo $_SESSION['atendimento']['status_nome']; ?>
+                        </div>
+                    </div>
+                    <div class="row h4">
+                        <div class="col-lg-3 text-right">
                             Descrição Do Problema :
                         </div>
                     </div>
@@ -81,59 +89,68 @@
                         </div>
                     </div>
                     <div class="row h4">
-                        <div class="col-lg-12 text-right">
+                        <div class="col-lg-12 text-right" <?php if($_SESSION['atendimento']['status_id'] == 4){echo 'style="visibility: hidden"';} ?>>
                             <button type="button" class="btn btn-info" onclick="abrirDiv('transferir')">Transferir</button>
-                            <button type="submit" class="btn btn-warning" onclick="abrirDiv('esperar')">Esperar</button>
-                            <button type="submit" class="btn btn-success" onclick="abrirDiv('finalizar')">Finalizar</button>
+                            <button type="button" class="btn btn-warning" onclick="abrirDiv('esperar')">Esperar</button>
+                            <button type="button" class="btn btn-success" onclick="abrirDiv('finalizar')">Finalizar</button>
                         </div>
                     </div>
-                    <hr>
-                    <div class="row" id="transferir" style="display: none">
+                    <div id="transferir" style="display: none">
+                        <hr>
                         <form class="form-horizontal" action="PHP/Gerenciador.php" method="POST">
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-lg-2">
+                                        <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id'];?>">
                                         <label for="textArea" class="control-label">Transferir Para :</label>
                                     </div>
                                     <div class="col-lg-3">
-                                        <select class="form-control">
+                                        <select class="form-control" id="transferir" name="transferir">
                                             <option> -- Selecione --</option>
                                             <?php foreach ($listaTecnicos as $row): ?>
-                                                <option value="<?php echo $row['pessoa_id']; ?>"><?php echo $row['nome_usuario']; ?></option>
+                                                <?php if ($row['pessoa_id'] != $_SESSION['a']['pessoa_id']): ?>
+                                                    <option value="<?php echo $row['pessoa_id']; ?>"><?php echo $row['pessoa_nome']; ?></option>
+                                                <?php endif;?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
-                                        <button type="submit" class="btn btn-info">Transferir</button>
+                                        <button type="submit" class="btn btn-info" name="transferirChamado">Transferir</button>
                                     </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div id="esperar" style="display: none">
+                        <hr>
                         <form class="form-horizontal" action="PHP/Gerenciador.php" method="POST">
                             <div class="row">
                                 <div class="col-lg-9">
+                                    <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id'];?>">
                                     <label for="textArea" class="control-label">Descrição De Espera</label>
                                     <textarea class="form-control" rows="3" name="descricao" style="resize: none" maxlength="500"></textarea>
                                 </div>
                             </div>
                             <div class="row h4">
                                 <div class="col-lg-9 text-right">
-                                    <button type="submit" class="btn btn-warning">Justificar</button>
+                                    <button type="submit" class="btn btn-warning" name="justificar">Justificar</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                     <div id="finalizar" style="display: none">
+                        <hr>
                         <form class="form-horizontal" action="PHP/Gerenciador.php" method="POST">
                             <div class="row">
                                 <div class="col-lg-5">
                                     <div class="">
+                                        <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id'];?>">
                                         <label for="textArea" class="control-label">Adicionar Auxilio Tecníco</label>
                                         <div class="list-group list-group-item scroll-list-2" id="tecnicos">
                                             <?php foreach ($listaTecnicos2 as $row): ?>
-                                                <input type="checkbox" name="check_list[]" value="<?php echo $row['pessoa_id']; ?>"> <?php echo $row['nome_usuario']; ?><br>
+                                                <?php if ($row['pessoa_id'] != $_SESSION['a']['pessoa_id']): ?>
+                                                    <input type="checkbox" name="check_list[]" value="<?php echo $row['pessoa_id']; ?>"> <?php echo $row['pessoa_nome']; ?><br>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </div>
                                     </div>
@@ -141,7 +158,7 @@
                             </div>
                             <div class="row h4">
                                 <div class="col-lg-5 text-right">
-                                    <button type="submit" class="btn btn-success">Finalizar</button>
+                                    <button type="submit" class="btn btn-success" name="finalizar">Finalizar</button>
                                 </div>
                             </div>
                         </form>
