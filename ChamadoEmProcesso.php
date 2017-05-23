@@ -3,8 +3,14 @@
         <title>CallWork</title>
         <link href=Css/style.css rel="stylesheet">
         <link href=Bootstrap/css/bootstrap.min.css rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <link href=Bootstrap/css/bootstrap-theme.min.css rel="stylesheet"/>
         <script src="Bootstrap/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
     </head>
     <body class="scrollbar">
         <div class="container-fluid">
@@ -17,8 +23,9 @@
                     <legend>Chamado Em Processo</legend>
                     <div class="scroll-list-3">
                         <?php foreach ($listaChamados as $row): ?>
-                            <div class="list-group list-group-item">
-                                <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
                                     <div class="col-md-10">
                                         <?php echo $row['descricao']; ?>
                                     </div>
@@ -31,8 +38,9 @@
                                         ?>"><?php echo $row['prioridade_nome']; ?></span>
                                     </div>
                                 </div>
-                                <hr>
-                                <div class="row">
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
                                     <div class="col-md-7">
                                         <div class="row">
                                             <div class="col-md-12">
@@ -54,11 +62,17 @@
                                     </div>
                                     <div class="col-md-5 text-right">
                                         <?php if ($row['tecnico_id'] == 0) : ?>
-                                            <a href="PHP/Gerenciador.php?atenderChamado&id=<?php echo $row['chamado_id'];?>" class="btn btn-success">Atender</a>
-                                        <?php else: ?>
-                                            <div class="form-control alert-warning text-center">Em Atendimento Por: <?php echo $row['tecnico']; ?></div>
+                                            <a href="PHP/Gerenciador.php?atenderChamado&id=<?php echo $row['chamado_id']; ?>" class="btn btn-success">Atender</a>
+                                        <?php elseif ($row['status_id'] == 2) : ?>
+                                            <div class="panel alert-warning text-center">Em Atendimento Por: <?php echo $row['tecnico']; ?></div>
+                                        <?php elseif ($row['status_id'] == 3) : ?>
+                                                <div class="panel alert-info text-center">
+                                                <span class="glyphicon glyphicon-comment text-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo $row['esperas']?>"></span>&nbsp;
+                                                    Em Espera Por: <?php echo $row['tecnico']; ?>
+                                                </div> 
                                         <?php endif; ?>
                                     </div>
+                                </div>
                                 </div>
                             </div>
                             <br>

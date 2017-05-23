@@ -6,7 +6,7 @@
         <li><a href="./AdicionarEspecialidade.php">Adicionar Especialidade</a></li>
         <li><a href="./GerarAcesso.php">Gerar Acesso</a></li>
         <li><a href="./ExcluirUsuariosInativos.php">Excluir Usuários Inativos</a></li>
-        <li><a href="./ChamadoEmAtendimento.php">Chamado Em Atendimento</a></li>
         <li><a href="./ChamadoEmProcesso.php">Chamado Em Processo</a></li>
+        <li><a href="./MeusChamados.php">Meus Chamados</a></li>
     </ul>
 </div>

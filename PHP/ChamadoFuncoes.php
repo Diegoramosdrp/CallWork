@@ -22,7 +22,7 @@ function adicionarChamado($solicitante, $descricao, $prioridade, $setor, $con) {
 
 function atenderChamado($chamadoId, $tecnicoId) {
     $conecao = newConection();
-    $confere = chamadoEmAtendimento($chamadoId);
+    $confere = detalhesChamado($chamadoId);
     if ($confere['tecnico_id'] == 0) {
         $atender = $conecao->prepare('CALL atenderChamado(:ptecnicoId, :pdataIniciado, :pstatusId, :pchamadoId)');
         $atender->bindValue(':pchamadoId', $chamadoId);
@@ -30,16 +30,17 @@ function atenderChamado($chamadoId, $tecnicoId) {
         $atender->bindValue(':pdataIniciado', dataAtual());
         $atender->bindValue(':pstatusId', 2);
         $atender->execute();
-        chamadoEmAtendimento($chamadoId);
+        detalhesChamado($chamadoId);
     }
 }
 
 function trasferirChamado($chamadoId, $tecnicoId) {
     $conecao = newConection();
-    $trasferir = $conecao->prepare('UPDATE `chamados` SET `tecnico_id` = :ptecnicoId WHERE chamado_id = :pchamadoId');
-    $trasferir->bindValue(':ptecnicoId', $tecnicoId);
-    $trasferir->bindValue(':pchamadoId', $chamadoId);
-    $trasferir->execute();
+    //$trasferir = $conecao->prepare('UPDATE `chamados` SET `tecnico_id` = :ptecnicoId WHERE chamado_id = :pchamadoId');
+    $transferir = $conecao->prepare('CALL transferirChamado(:pchamadoId, :ptecnicoId)');
+    $transferir->bindValue(':ptecnicoId', $tecnicoId);
+    $transferir->bindValue(':pchamadoId', $chamadoId);
+    $transferir->execute();
 }
 
 function finalizarChamado($chamadoId) {
@@ -48,7 +49,7 @@ function finalizarChamado($chamadoId) {
     $finalizar->bindValue(':pchamadoId', $chamadoId);
     $finalizar->bindValue(':pdatafinalizado', dataAtual());
     $finalizar->execute();
-    chamadoEmAtendimento($chamadoId);
+    detalhesChamado($chamadoId);
 }
 
 function adicionarChamadoEmEspera($descricao, $chamadoId) {
@@ -57,10 +58,10 @@ function adicionarChamadoEmEspera($descricao, $chamadoId) {
     $esperar->bindValue(':pdescricao', $descricao);
     $esperar->bindValue(':pchamadoId', $chamadoId);
     $esperar->execute();
-    chamadoEmAtendimento($chamadoId);
+    detalhesChamado($chamadoId);
 }
 
-function chamadoEmAtendimento($chamadoId) {
+function detalhesChamado($chamadoId) {
     $conecao = newConection();
     $busca = $conecao->prepare('CALL chamadoEmAtendimento(:pchamado_id)');
     $busca->bindValue(':pchamado_id', $chamadoId);

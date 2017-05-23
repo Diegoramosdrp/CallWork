@@ -15,7 +15,7 @@ if (isset($_POST['logar'])) {
     if ($idLogin == 1) {
         header('location:../Index.php');
     } else {
-        header('location:../Index3.php');
+        header('location:../ChamadoEmProcesso.php');
     }
 }
 
@@ -74,24 +74,34 @@ if (isset($_POST['adicionarChamado'])) {
     header('location:../AdicionarChamado.php');
 }
 
+//Atender Chamado
 if (isset($_GET['atenderChamado'])) {
     atenderChamado($id = $_GET['id'], $_SESSION['a']['pessoa_id']);
-    header('location:../ChamadoEmAtendimento.php');
+    header('location:../DetalhesChamado.php');
 }
 
+//Transferir Chamado
 if (isset($_POST['transferirChamado'])) {
     trasferirChamado($_POST['chamadoId'], $_POST['transferir']);
-    header('location:../ChamadoEmAtendimento.php');
+    header('location:../DetalhesChamado.php');
 }
 
+//Justificar Espera Chamado
 if (isset($_POST['justificar'])) {
     adicionarChamadoEmEspera($_POST['descricao'], $_POST['chamadoId']);
-    header('location:../ChamadoEmAtendimento.php');
+    header('location:../DetalhesChamado.php');
 }
 
+//Finalizar Chamado
 if (isset($_POST['finalizar'])) {
     finalizarChamado($_POST['chamadoId']);
-    header('location:../ChamadoEmAtendimento.php');
+    header('location:../DetalhesChamado.php');
+}
+
+//Detalhes Chamado
+if (isset($_GET['detalhes'])) {
+    detalhesChamado($_GET['id']);
+    header('location:../DetalhesChamado.php');
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

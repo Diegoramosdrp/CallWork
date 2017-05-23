@@ -4,28 +4,32 @@
         <link href=Css/style.css rel="stylesheet">
         <link href=Bootstrap/css/bootstrap.min.css rel="stylesheet" />
         <link href=Bootstrap/css/bootstrap-theme.min.css rel="stylesheet"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="Bootstrap/js/bootstrap.min.js"></script>
         <script>
             function abrirDiv(div) {
                 var display = document.getElementById(div).style.display;
-                if (display == "none"){
-                    if(div == "transferir"){
+                if (display == "none") {
+                    if (div == "transferir") {
                         document.getElementById("transferir").style.display = "block";
                         document.getElementById("esperar").style.display = "none";
                         document.getElementById("finalizar").style.display = "none";
-                    }
-                    else if (div == "esperar"){
+                    } else if (div == "esperar") {
                         document.getElementById("transferir").style.display = "none";
                         document.getElementById("esperar").style.display = "block";
                         document.getElementById("finalizar").style.display = "none";
-                    }
-                    else{
+                    } else {
                         document.getElementById("transferir").style.display = "none";
                         document.getElementById("esperar").style.display = "none";
                         document.getElementById("finalizar").style.display = "block";
                     }
                 }
             }
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="popover"]').popover();
+            });
         </script>
     </head>
     <body>
@@ -44,11 +48,11 @@
                         <div class="col-lg-5">
                             <?php echo $_SESSION['atendimento']['pessoa']; ?>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4 text-right">
                             <?php
                             setlocale(LC_ALL, 'pt-BR');
                             date_default_timezone_set('America/Sao_Paulo');
-                            echo utf8_encode(strftime('EM : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_criacao'])));
+                            echo utf8_encode(strftime('Em : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_criacao'])));
                             ?>
                         </div>
                     </div>
@@ -64,16 +68,39 @@
                         <div class="col-lg-3 text-right">
                             Prioridade :
                         </div>
-                        <div class="col-lg-3">
-                            <span class="badge" style="background-color: <?php echo $_SESSION['atendimento']['prioridade_cor']; if ($_SESSION['atendimento']['prioridade_id'] == 2) {echo ';color: black';}?>"><?php echo $_SESSION['atendimento']['prioridade_nome']; ?></span>
+                        <div class="col-lg-5">
+                            <span class="badge" style="background-color: <?php
+                            echo $_SESSION['atendimento']['prioridade_cor'];
+                            if ($_SESSION['atendimento']['prioridade_id'] == 2) {
+                                echo ';color: black';
+                            }
+                            ?>"><?php echo $_SESSION['atendimento']['prioridade_nome']; ?></span>
+                        </div>
+                        <div class="col-lg-4 text-right">
+                            <?php
+                            setlocale(LC_ALL, 'pt-BR');
+                            date_default_timezone_set('America/Sao_Paulo');
+                            echo utf8_encode(strftime('Iniciado Em : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_iniciado'])));
+                            ?>
                         </div>
                     </div>
                     <div class="row h4">
                         <div class="col-lg-3 text-right">
                             Status :
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-5">
                             <?php echo $_SESSION['atendimento']['status_nome']; ?>
+                        </div>
+                        <div class="col-lg-4 text-right">
+                            <?php
+                            if ($_SESSION['atendimento']['data_finalizacao'] != 0) {
+                                setlocale(LC_ALL, 'pt-BR');
+                                date_default_timezone_set('America/Sao_Paulo');
+                                echo utf8_encode(strftime('Finalizado Em : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_finalizacao'])));
+                            }
+                            ?>
+                            <span class="glyphicon glyphicon-comment"></span>
+                            <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $_SESSION['atendimento']['esperas']?>" data-original-title="" title="" aria-describedby="popover549443">Top</button>
                         </div>
                     </div>
                     <div class="row h4">
@@ -89,7 +116,11 @@
                         </div>
                     </div>
                     <div class="row h4">
-                        <div class="col-lg-12 text-right" <?php if($_SESSION['atendimento']['status_id'] == 4){echo 'style="visibility: hidden"';} ?>>
+                        <div class="col-lg-12 text-right" <?php
+                        if ($_SESSION['atendimento']['status_id'] == 4) {
+                            echo 'style="visibility: hidden"';
+                        }
+                        ?>>
                             <button type="button" class="btn btn-info" onclick="abrirDiv('transferir')">Transferir</button>
                             <button type="button" class="btn btn-warning" onclick="abrirDiv('esperar')">Esperar</button>
                             <button type="button" class="btn btn-success" onclick="abrirDiv('finalizar')">Finalizar</button>
@@ -101,7 +132,7 @@
                             <div class="col-lg-12">
                                 <div class="row">
                                     <div class="col-lg-2">
-                                        <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id'];?>">
+                                        <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id']; ?>">
                                         <label for="textArea" class="control-label">Transferir Para :</label>
                                     </div>
                                     <div class="col-lg-3">
@@ -110,7 +141,7 @@
                                             <?php foreach ($listaTecnicos as $row): ?>
                                                 <?php if ($row['pessoa_id'] != $_SESSION['a']['pessoa_id']): ?>
                                                     <option value="<?php echo $row['pessoa_id']; ?>"><?php echo $row['pessoa_nome']; ?></option>
-                                                <?php endif;?>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -126,7 +157,7 @@
                         <form class="form-horizontal" action="PHP/Gerenciador.php" method="POST">
                             <div class="row">
                                 <div class="col-lg-9">
-                                    <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id'];?>">
+                                    <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id']; ?>">
                                     <label for="textArea" class="control-label">Descrição De Espera</label>
                                     <textarea class="form-control" rows="3" name="descricao" style="resize: none" maxlength="500"></textarea>
                                 </div>
@@ -144,7 +175,7 @@
                             <div class="row">
                                 <div class="col-lg-5">
                                     <div class="">
-                                        <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id'];?>">
+                                        <input type="hidden" name="chamadoId" value="<?php echo $_SESSION['atendimento']['chamado_id']; ?>">
                                         <label for="textArea" class="control-label">Adicionar Auxilio Tecníco</label>
                                         <div class="list-group list-group-item scroll-list-2" id="tecnicos">
                                             <?php foreach ($listaTecnicos2 as $row): ?>
