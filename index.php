@@ -1,4 +1,10 @@
-<?php include 'PHP/Gerenciador.php'; ?>
+<?php include 'PHP/Gerenciador.php'; 
+if (isset($_SESSION['a'])) {
+    if ($_SESSION['a']['primeiro_acesso'] != 0) {
+         manterLogado();    
+    }
+}
+?>
 <html>
     <head>
         <title>CallWork</title>
@@ -14,10 +20,10 @@
                     <div class="col-sm-12 col-md-offset-1">
                         <form action="PHP/Gerenciador.php" method="POST">
                             <div class="form-group input-group text-center col-lg-12">
-                                <div id="logo-container"><img src="Images/logo.jpg" width="70px" height="60px"/></div>
+                                <div id="logo-container well"><img src="Images/logo.jpg" width="140px" height="120px"/></div>
                                 <br>
                             </div>
-                            <div>
+                            <div class="">
                                 <input class="form-control" type="hidden" name='loginId' placeholder="Nome De Usuario" value="<?php echo @$_SESSION['a']['login_id'] ?>"/>
                             </div>
                             <div class="form-group input-group">

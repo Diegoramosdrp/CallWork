@@ -46,7 +46,7 @@
                             </div>
                         </fieldset>
                         <?php if (isset($_SESSION['mensagem'])): ?>
-                            <div class="<?php echo $_SESSION['class']; ?> ">
+                            <div class="<?php echo $_SESSION['class']; ?> col-lg-5">
                                 <?php
                                 echo $_SESSION['mensagem'];
                                 unset($_SESSION['mensagem']);

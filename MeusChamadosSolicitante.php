@@ -20,11 +20,16 @@
                     <?php include './Template/menulateral.php'; ?>
                 </div>
                 <div class="col-md-8">
-                    <legend>Chamado Em Processo</legend>
+                    <legend>Meus Chamados</legend>
+                    <div class="">
+                        <a href="./PHP/Gerenciador.php?filtrar&id=1" class="btn btn-warning btn-xs">Em processo</a>
+                        <a href="./PHP/Gerenciador.php?filtrar&id=2" class="btn btn-warning btn-xs">Encerrado</a>
+                    </div>  
                     <div class="scroll-list-3">
-                        <?php foreach ($listaChamados as $row): ?>
-                        <?php if($row['status_id'] != 4): ?>
-                            <div class="panel panel-default">
+                        <br>
+                        <?php foreach ($listaChamadosFinalizado as $row): ?>
+                            <?php if ($row['pessoa_id'] == $_SESSION['a']['pessoa_id']): ?>
+                                <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="row">
                                     <div class="col-md-10">
@@ -45,7 +50,7 @@
                                     <div class="col-md-7">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                Aberto Por : <?php echo $row['pessoa']; ?>
+                                                Aberto Por : <?php if($row['pessoa_id'] == $_SESSION['a']['pessoa_id']) {echo 'Mim';} else{$row['pessoa'];} ?>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -62,8 +67,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-5 text-right">
-                                        <?php if ($row['tecnico_id'] == 0) : ?>
-                                            <a href="PHP/Gerenciador.php?atenderChamado&id=<?php echo $row['chamado_id']; ?>" class="btn btn-success">Atender</a>
+                                        <?php if ($row['status_id'] == 1) : ?>
+                                            <div class="panel alert-success text-center">Aguardando Atendimento</div>
                                         <?php elseif ($row['status_id'] == 2) : ?>
                                             <div class="panel alert-warning text-center">Em Atendimento Por: <?php echo $row['tecnico']; ?></div>
                                         <?php elseif ($row['status_id'] == 3) : ?>
@@ -71,13 +76,16 @@
                                                 <span class="glyphicon glyphicon-comment text-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo $row['esperas']?>"></span>&nbsp;
                                                     Em Espera Por: <?php echo $row['tecnico']; ?>
                                                 </div> 
+                                        <?php elseif ($row['status_id'] == 4) : ?>
+                                                <div class="panel alert-success text-center">Finalizado Por: <?php echo $row['tecnico']; ?></div> 
                                         <?php endif; ?>
+                                        <a href="PHP/Gerenciador.php?detalhes&id=<?php echo $row['chamado_id']; ?>" class="btn btn-success btn-xs">Detalhes</a>
                                     </div>
                                 </div>
                                 </div>
                             </div>
                             <br>
-                        <?php endif; ?>
+                            <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
                 </div>

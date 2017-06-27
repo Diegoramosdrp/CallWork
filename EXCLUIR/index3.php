@@ -17,8 +17,9 @@
                 <div class="col-md-8">
                     <?php echo $_SESSION['a']['nome_usuario']; 
                     $server = $_SERVER['SERVER_NAME'];
-                    $endereco = $_SERVER ['REQUEST_URI'];
-                    print_r($endereco);?>
+                    $endereco = $_SERVER ['PHP_SELF'];
+                    //print_r($_SERVER ['PHP_SELF']);
+                    echo basename($_SERVER ['PHP_SELF']);?>
                 </div>
             </div>
         </div>

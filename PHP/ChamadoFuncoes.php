@@ -4,6 +4,9 @@ include_once 'Config_1.php';
 
 function adicionarChamado($solicitante, $descricao, $prioridade, $setor, $con) {
     if ($descricao != NULL && $setor != 0) {
+        if ($_SESSION['a']['permissao_id'] == 6) {
+            $prioridade = 1;
+        }
         $adiciona = $con->prepare('CALL adicionarChamado(:ppessoa_id, :pdescricao, :psetor_id, :pprioridade_id, :pstatus_id, :pdata_criacao)');
         $adiciona->bindValue(':ppessoa_id', $solicitante);
         $adiciona->bindValue(':pdescricao', $descricao);
@@ -71,10 +74,16 @@ function detalhesChamado($chamadoId) {
     return $confere;
 }
 
-function listarChamados() {
+function listarChamados($id) {
     $conecao = newConection();
-    $listaChamados = $conecao->prepare('CALL listaChamados');
-    $listaChamados->execute();
+    
+    if($id == TRUE){
+        $listaChamados = $conecao->prepare('CALL listaChamados');
+        $listaChamados->execute();
+    } else {
+        $listaChamados = $conecao->prepare('CALL listaChamadoFinalizado');
+        $listaChamados->execute();
+    }
     return $listaChamados;
 }
 

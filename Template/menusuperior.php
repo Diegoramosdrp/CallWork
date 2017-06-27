@@ -1,4 +1,9 @@
-<?php include './PHP/Gerenciador.php'; ?>
+<?php include './PHP/Gerenciador.php'; 
+garantirAcesso();
+if (paginasPermitidas(basename($_SERVER ['PHP_SELF']), $_SESSION['a']['permissao_id'], 1) == 0) {
+    manterLogado();
+}
+?>
 <div class="well">
     <div class="container-fluid">
         <div class="row">

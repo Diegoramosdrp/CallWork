@@ -15,7 +15,7 @@ if (isset($_POST['logar'])) {
     if ($idLogin == 1) {
         header('location:../Index.php');
     } else {
-        header('location:../ChamadoEmProcesso.php');
+        paginaInicial();
     }
 }
 
@@ -32,8 +32,11 @@ if (isset($_POST['alterarSenha'])) {
     } else {
         if ($idAltSenha == 1) {
             header('location:../Index.php');
-        } else {            
-            header('location:../Index3.php');
+        } else {
+            if ($_SESSION['a']['primeiro_acesso'] != 0) {
+                unset($_SESSION['mensagem']);
+            }
+            header('location:../ChamadoEmProcesso.php');
         }
     }
 }
@@ -104,6 +107,8 @@ if (isset($_GET['detalhes'])) {
     header('location:../DetalhesChamado.php');
 }
 
+
+
 //------------------------------------------------------------------------------------------------------------------------------
 // -- FUNÇÕES ACESSO --
 //Adicionar Acesso
@@ -116,9 +121,26 @@ if (isset($_POST['adicionarAcesso'])) {
 
 //------------------------------------------------------------------------------------------------------------------------------
 // -- LISTAS -- 
-
 //Listar Chamados
-$listaChamados = listarChamados($conecao);
+$listaChamados = listarChamados(TRUE);
+if (isset($_SESSION['listachamados'])) {
+    $listaChamadosFinalizado = listarChamados($_SESSION['listachamados']);
+}
+if (isset($_GET['filtrar'])) {
+    if ($_GET['id'] == 1) {
+        $_SESSION['listachamados'] = TRUE;
+    } else {
+        $_SESSION['listachamados'] = FALSE;
+    }
+    if ($_SESSION['a']['permissao_id'] == 4) {
+        header('location:../MeusChamadosTecnico.php');
+    } else {
+        header('location:../MeusChamadosSolicitante.php');
+    }
+} else {
+    $_SESSION['listachamados'] = TRUE;
+}
+
 
 //Listar Setores
 $listaSetores = listarSetores($conecao);
@@ -135,5 +157,4 @@ $listaPermissoes = listarPermissoes();
 //Listar Tecnicos
 $listaTecnicos = listarTecnicos();
 $listaTecnicos2 = listarTecnicos();
-
 ?>

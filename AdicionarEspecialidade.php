@@ -56,7 +56,7 @@
                                                         <td><?php echo $row['nome']; ?></td>
                                                         <td class="text-right">
                                                             <a href="PHP/Gerenciador.php?excluirEspecialidade&id=<?php echo $row['especialidade_id']; ?>" class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></a>
-                                                            <a href="PHP/Gerenciador.php?id=<?php echo $row['especialidade_id']; ?>" class="btn btn-default" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-edit"></span></a>
+                                                        </td>
                                                     </tr>
                                                 <?php endforeach; ?>    
                                             </tbody>

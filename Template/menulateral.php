@@ -1,12 +1,15 @@
+<?php
+$menu = paginasPermitidas(basename($_SERVER ['PHP_SELF']), $_SESSION['a']['permissao_id'], 0);
+?>
+
 <div class="well menu-height"> 
     <ul class="nav nav-stacked" id="sidebar">
-        <li><a href="./AdicionarChamado.php">Adicionar Chamado</a></li>
-        <li><a href="./AlterarSenha.php">Alterar Senha</a></li>
-        <li><a href="./AdicionarSetor.php">Adicionar Setor</a></li>
-        <li><a href="./AdicionarEspecialidade.php">Adicionar Especialidade</a></li>
-        <li><a href="./GerarAcesso.php">Gerar Acesso</a></li>
-        <li><a href="./ExcluirUsuariosInativos.php">Excluir Usuários Inativos</a></li>
-        <li><a href="./ChamadoEmProcesso.php">Chamado Em Processo</a></li>
-        <li><a href="./MeusChamados.php">Meus Chamados</a></li>
+        <?php foreach ($menu as $m => $permissao):?>
+        <?php foreach ($permissao as $p):?>
+        <?php if ($p == $_SESSION['a']['permissao_id'] && $m != 'DetalhesChamado.php'):?>
+        <li><a href="./<?php echo $m; ?>"><?php echo reset($permissao);?></a></li>
+        <?php endif;?>
+        <?php endforeach;?>
+        <?php endforeach;?>
     </ul>
 </div>
