@@ -81,8 +81,8 @@ function detalhesChamado($chamadoId) {
     $busca->bindValue(':pchamado_id', $chamadoId);
     $busca->execute();
     $confere = $busca->fetch();
-    $_SESSION['atendimento'] = $confere;
     listaEspera($chamadoId);
+    $_SESSION['atendimento'] = $confere;
     return $confere;
 }
 
@@ -134,7 +134,7 @@ function listarMensagens($pessoa_id){
 function listaEspera($chamadoId){
     $conecao = newConection();
     $espera = $conecao->prepare('CALL listaEspera(:pchamadoId)');
-    $espera->bindValue(':pchamadoId',159);
+    $espera->bindValue(':pchamadoId',$chamadoId);
     $espera->execute();
     $e = $espera->fetch();
     $_SESSION['esperas'] = $e['descricao'];
