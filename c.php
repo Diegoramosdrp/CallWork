@@ -1,55 +1,22 @@
-<?php include './PHP/AcessoFuncoes.php'; ?>
+<pre>
+Diretor
+joao.dias - 1400w
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Bootstrap Example</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
-    <body>
+Coordenador ok
+eliasgomes - eli2017
 
-        <div class="container">
-            <h3>Popover Example</h3>
-            <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
-        </div>
+Chefe De Gabinete ok
+james.west - 29062017
 
-        <script>
-            $(document).ready(function () {
-                $('[data-toggle="popover"]').popover();
-            });
-        </script>
+tecnico
+vicent.gogh - 1984gogh
+gary.kilgrave - jessica
+bruna.faria - brfa29
 
+Administrador
+jack.ryan - 1400w68w
+adm - 1
 
-
-        <?php
-        $paginas = array(
-        'AdicionarChamado.php' => array(1,2,3,6), array('teste'),
-        'AdicionarEspecialidade.php' => array(4,5), array('aaoaoa'),
-        'AdicionarSetor.php' => array(4,5),
-        'AlterarSenha.php' => array(1,2,3,4,5,6),
-        'ChamadoEmProcesso.php' => array(5,6),
-        'DetalhesChamado.php' => array(1,2,3,4,5,6),
-        'ExcluirUsuariosInativos.php' => array(5),
-        'GerarAcesso.php' => array(4,5),
-        'MeusChamadosSolicitante.php' => array(1,2,3,6),
-        'MeusChamadosTecnico.php' => array(4)
-        );
-        
-        foreach ($paginas as $p => $pp){
-            echo $p.' ';
-            foreach ($pp as $pa){
-                echo $pa.' ';
-            }
-            echo '<br>';
-        }
-        
-        foreach ($paginas as list ($e)){
-            echo $e;
-        }
-        ?>
-    </body>
-</html>
+funcionario
+mariana.pereira - mary2017
+</pre>

@@ -3,7 +3,7 @@
         <title>CallWork</title>
         <link href=Css/style.css rel="stylesheet">
         <link href=Bootstrap/css/bootstrap.min.css rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="Bootstrap/js/jquery.js"></script>
         <link href=Bootstrap/css/bootstrap-theme.min.css rel="stylesheet"/>
         <script src="Bootstrap/js/bootstrap.min.js"></script>
         <script>

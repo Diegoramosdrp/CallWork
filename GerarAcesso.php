@@ -3,10 +3,9 @@
         <title>CallWork</title>
         <link href=Css/style.css rel="stylesheet">
         <link href=Bootstrap/css/bootstrap.min.css rel="stylesheet" />
+        <script src="Bootstrap/js/jquery.js"></script>
         <link href=Bootstrap/css/bootstrap-theme.min.css rel="stylesheet"/>
         <script src="Bootstrap/js/bootstrap.min.js"></script>
-        <script src="Bootstrap/js/jquery.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script>
             function verificaOpcao(valor) {
                 if (valor != 4) {
@@ -69,7 +68,11 @@
                                     <select class="form-control" id="permissao" name="permissao" onchange="verificaOpcao(this.value)">
                                         <option> -- Selecione --</option>
                                         <?php foreach ($listaPermissoes as $row): ?>
+                                            <?php if($row['permissao_id'] != 5 && $_SESSION['a']['permissao_id'] == 4):?>
                                             <option value="<?php echo $row['permissao_id']; ?>" <?php if (@$_SESSION['formulario']['permissao'] == $row['permissao_id']) { echo 'selected = "selected"';}?>><?php echo $row['nome']; ?></option>
+                                            <?php elseif($_SESSION['a']['permissao_id'] == 5):?>
+                                            <option value="<?php echo $row['permissao_id']; ?>" <?php if (@$_SESSION['formulario']['permissao'] == $row['permissao_id']) { echo 'selected = "selected"';}?>><?php echo $row['nome']; ?></option>
+                                            <?php endif;?>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>

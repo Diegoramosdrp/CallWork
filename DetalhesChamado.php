@@ -1,10 +1,12 @@
+<?php
+?>
 <html>
     <head>
         <title>CallWork</title>
         <link href=Css/style.css rel="stylesheet">
         <link href=Bootstrap/css/bootstrap.min.css rel="stylesheet" />
+        <script src="Bootstrap/js/jquery.js"></script>
         <link href=Bootstrap/css/bootstrap-theme.min.css rel="stylesheet"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="Bootstrap/js/bootstrap.min.js"></script>
         <script>
             function abrirDiv(div) {
@@ -28,7 +30,7 @@
         </script>
         <script>
             $(document).ready(function () {
-                $('[data-toggle="popover"]').popover();
+                $('[data-toggle="tooltip"]').tooltip();
             });
         </script>
     </head>
@@ -78,9 +80,11 @@
                         </div>
                         <div class="col-lg-4 text-right">
                             <?php
-                            setlocale(LC_ALL, 'pt-BR');
-                            date_default_timezone_set('America/Sao_Paulo');
-                            echo utf8_encode(strftime('Iniciado Em : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_iniciado'])));
+                                if ($_SESSION['atendimento']['data_iniciado'] != 0) {
+                                    setlocale(LC_ALL, 'pt-BR');
+                                    date_default_timezone_set('America/Sao_Paulo');
+                                    echo utf8_encode(strftime('Iniciado Em : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_iniciado'])));
+                                }
                             ?>
                         </div>
                     </div>
@@ -90,6 +94,9 @@
                         </div>
                         <div class="col-lg-5">
                             <?php echo $_SESSION['atendimento']['status_nome']; ?>
+                            <?php if($_SESSION['atendimento']['status_id'] == 3):?>
+                            <span class="glyphicon glyphicon-comment text-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="<?php echo $_SESSION['esperas']?>"></span>
+                            <?php endif; ?>
                         </div>
                         <div class="col-lg-4 text-right">
                             <?php
@@ -99,8 +106,6 @@
                                 echo utf8_encode(strftime('Finalizado Em : %d/%m/%Y %H:%M', strtotime($_SESSION['atendimento']['data_finalizacao'])));
                             }
                             ?>
-                            <span class="glyphicon glyphicon-comment"></span>
-                            <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="<?php echo $_SESSION['atendimento']['esperas']?>" data-original-title="" title="" aria-describedby="popover549443">Top</button>
                         </div>
                     </div>
                     <div class="row h4">
@@ -116,14 +121,14 @@
                         </div>
                     </div>
                     <div class="row h4">
-                        <div class="col-lg-12 text-right" <?php
-                        if ($_SESSION['atendimento']['status_id'] == 4) {
-                            echo 'style="visibility: hidden"';
-                        }
-                        ?>>
+                        <div class="col-lg-12 text-right" <?php if ($_SESSION['atendimento']['status_id'] == 4): echo 'style="visibility: hidden"';endif;?>>
+                            <?php if($_SESSION['a']['permissao_id'] == 4):?>
                             <button type="button" class="btn btn-info" onclick="abrirDiv('transferir')">Transferir</button>
-                            <button type="button" class="btn btn-warning" onclick="abrirDiv('esperar')">Esperar</button>
+                                <?php if($_SESSION['atendimento']['status_id'] != 3):?>
+                                    <button type="button" class="btn btn-warning" onclick="abrirDiv('esperar')">Esperar</button>
+                                <?php endif;?>
                             <button type="button" class="btn btn-success" onclick="abrirDiv('finalizar')">Finalizar</button>
+                            <?php endif;?>
                         </div>
                     </div>
                     <div id="transferir" style="display: none">
@@ -194,6 +199,14 @@
                             </div>
                         </form>
                     </div>
+                    <?php if (isset($_SESSION['mensagem'])): ?>
+                        <div class="<?php echo $_SESSION['class']; ?> form-control">
+                            <?php
+                            echo $_SESSION['mensagem'];
+                            unset($_SESSION['mensagem'])
+                            ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

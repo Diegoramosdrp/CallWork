@@ -164,7 +164,7 @@ function paginasPermitidas($pagina, $permissao_id, $id){
         'AlterarSenha.php' => array('Alterar Senha',1,2,3,4,5,6),
         'ChamadoEmProcesso.php' => array('Chamado Em Processo',4,5),
         'DetalhesChamado.php' => array('Detalhes Chamado',1,2,3,4,5,6),
-        'ExcluirUsuariosInativos.php' => array('Excluir Usuarios Inativos',5),
+        'ExcluirUsuariosInativos.php' => array('Excluir Usuarios Inativos',7),
         'GerarAcesso.php' => array('Gerar Acesso',4,5),
         'MeusChamadosSolicitante.php' => array('Meus Chamados',1,2,3,6),
         'MeusChamadosTecnico.php' => array('Meus Chamados',4),
@@ -194,7 +194,7 @@ function garantirAcesso(){
 
 function manterLogado(){
     if (isset($_SESSION['a'])) {
-        if ($_SESSION['a']['permissao_id'] < 5) {
+        if ($_SESSION['a']['permissao_id'] < 4 || $_SESSION['a']['permissao_id'] == 6) {
             header('location:./AdicionarChamado.php');
         }else{
             header('location:./ChamadoEmProcesso.php');
@@ -209,7 +209,7 @@ function tempoAtingido($dataAcesso){
 }
 
 function paginaInicial(){
-    if ($_SESSION['a']['permissao_id'] < 5) {
+    if ($_SESSION['a']['permissao_id'] < 4 || $_SESSION['a']['permissao_id'] == 6) {
         header('location:../AdicionarChamado.php');
     }else{
         header('location:../ChamadoEmProcesso.php');

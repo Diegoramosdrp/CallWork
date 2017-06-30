@@ -3,7 +3,7 @@
         <title>CallWork</title>
         <link href=Css/style.css rel="stylesheet">
         <link href=Bootstrap/css/bootstrap.min.css rel="stylesheet" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="Bootstrap/js/jquery.js"></script>
         <link href=Bootstrap/css/bootstrap-theme.min.css rel="stylesheet"/>
         <script src="Bootstrap/js/bootstrap.min.js"></script>
         <script>
@@ -20,7 +20,7 @@
                     <?php include './Template/menulateral.php'; ?>
                 </div>
                 <div class="col-md-8">
-                    <legend>Chamado Em Processo</legend>
+                    <legend>Chamados Em Processo</legend>
                     <div class="scroll-list-3">
                         <?php foreach ($listaChamados as $row): ?>
                         <?php if($row['status_id'] != 4): ?>
@@ -63,7 +63,11 @@
                                     </div>
                                     <div class="col-md-5 text-right">
                                         <?php if ($row['tecnico_id'] == 0) : ?>
+                                            <?php if ($_SESSION['a']['permissao_id'] == 5) : ?>
+                                            <div class="panel alert-success text-center">Aguardando Atendimento</div>
+                                            <?php else: ?>
                                             <a href="PHP/Gerenciador.php?atenderChamado&id=<?php echo $row['chamado_id']; ?>" class="btn btn-success">Atender</a>
+                                            <?php endif; ?>
                                         <?php elseif ($row['status_id'] == 2) : ?>
                                             <div class="panel alert-warning text-center">Em Atendimento Por: <?php echo $row['tecnico']; ?></div>
                                         <?php elseif ($row['status_id'] == 3) : ?>

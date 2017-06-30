@@ -85,19 +85,19 @@ if (isset($_GET['atenderChamado'])) {
 
 //Transferir Chamado
 if (isset($_POST['transferirChamado'])) {
-    trasferirChamado($_POST['chamadoId'], $_POST['transferir']);
-    header('location:../DetalhesChamado.php');
+    trasferirChamado($_POST['chamadoId'], $_POST['transferir'],$_SESSION['a']['pessoa_id']);
+    header('location:../MeusChamadosTecnico.php');
 }
 
 //Justificar Espera Chamado
 if (isset($_POST['justificar'])) {
-    adicionarChamadoEmEspera($_POST['descricao'], $_POST['chamadoId']);
+    adicionarChamadoEmEspera($_POST['descricao'], $_POST['chamadoId'],$_SESSION['a']['pessoa_id']);
     header('location:../DetalhesChamado.php');
 }
 
 //Finalizar Chamado
 if (isset($_POST['finalizar'])) {
-    finalizarChamado($_POST['chamadoId']);
+    finalizarChamado($_POST['chamadoId'],$_SESSION['a']['pessoa_id']);
     header('location:../DetalhesChamado.php');
 }
 
@@ -105,6 +105,12 @@ if (isset($_POST['finalizar'])) {
 if (isset($_GET['detalhes'])) {
     detalhesChamado($_GET['id']);
     header('location:../DetalhesChamado.php');
+}
+
+//Ler Mensagens
+if (isset($_GET['lerMensagem'])) {
+    lerMensagens($_SESSION['a']['pessoa_id']);
+    header('location:../AdicionarChamado.php');
 }
 
 
@@ -123,6 +129,7 @@ if (isset($_POST['adicionarAcesso'])) {
 // -- LISTAS -- 
 //Listar Chamados
 $listaChamados = listarChamados(TRUE);
+$listaChamados2 = listarChamados(TRUE);
 if (isset($_SESSION['listachamados'])) {
     $listaChamadosFinalizado = listarChamados($_SESSION['listachamados']);
 }
@@ -157,4 +164,7 @@ $listaPermissoes = listarPermissoes();
 //Listar Tecnicos
 $listaTecnicos = listarTecnicos();
 $listaTecnicos2 = listarTecnicos();
+
+//Listar Mensagens
+$listaMensagens = listarMensagens(@$_SESSION['a']['pessoa_id']);
 ?>
